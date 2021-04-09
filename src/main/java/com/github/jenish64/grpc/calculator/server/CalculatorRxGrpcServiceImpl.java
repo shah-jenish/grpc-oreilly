@@ -18,6 +18,13 @@ import io.reactivex.Single;
  * 2. Expand the emitter to have onError, OnDispose....
  *
  * 3. Take the FE mock feed service and use the rxjava service stubs
+ *
+ * Feed Sdk options:
+ * Option 1: Feed service change to generate salesforce reactive grpc stubs
+ * Option 2: Modify Feed Sdk to convert the List<FeedEvent> to Flowable<FeedEvent>
+ *            - No service change
+ * Option 3: No Feed Sdk change...Just add a new Example showing how to use RxJava
+ *
  */
 public class CalculatorRxGrpcServiceImpl extends RxCalculatorServiceGrpc.CalculatorServiceImplBase {
 
