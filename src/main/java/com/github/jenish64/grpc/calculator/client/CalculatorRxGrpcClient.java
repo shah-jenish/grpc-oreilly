@@ -10,7 +10,6 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import java.time.Instant;
 
@@ -37,7 +36,7 @@ public class CalculatorRxGrpcClient {
 
     final PrimeNumberDecompositionRequest primeRequest =
         PrimeNumberDecompositionRequest.newBuilder()
-        .setNumber(512)
+        .setNumber(Integer.MAX_VALUE - 3)
         .build();
 
     // Create request
@@ -50,10 +49,7 @@ public class CalculatorRxGrpcClient {
     final Flowable<PrimeNumberDecompositionResponse> flowableResponses =
         rxPrimeRequest.as(blockingStub::decomposePrimeNumber);
     // Subscribe to the Flowable responses
-    final Disposable disposableSubscribe = flowableResponses.subscribe(responseConsumer, responseErrorHandler);
-    if (disposableSubscribe.isDisposed()) {
-      disposableSubscribe.dispose();
-    }
+    flowableResponses.subscribe(responseConsumer, responseErrorHandler);
 
     System.out.println(Instant.now());
     System.out.println("Shutting down channel!");

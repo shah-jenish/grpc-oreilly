@@ -7,7 +7,6 @@ import com.proto.calculator.SumRequest;
 import com.proto.calculator.SumResponse;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Single;
 
@@ -31,30 +30,29 @@ public class CalculatorRxGrpcServiceImpl extends RxCalculatorServiceGrpc.Calcula
 
   @Override
   public Flowable<PrimeNumberDecompositionResponse> decomposePrimeNumber(Single<PrimeNumberDecompositionRequest> request) {
-    final FlowableOnSubscribe<PrimeNumberDecompositionResponse> flowableOnSubscribe = new FlowableOnSubscribe<PrimeNumberDecompositionResponse>() {
-      @Override
-      public void subscribe(FlowableEmitter<PrimeNumberDecompositionResponse> emitter)
-          throws Exception {
-        int number = request.blockingGet().getNumber();
-        int divisor = 2;
 
-        while (number > 1) {
-          if (number % divisor == 0) {
-            number = number / divisor;
-            System.out.println(divisor);
-            emitter.onNext(PrimeNumberDecompositionResponse.newBuilder()
-                .setPrimeFactor(divisor)
-                .build());
-          } else {
-            divisor += 1;
-          }
+    final FlowableOnSubscribe<PrimeNumberDecompositionResponse> flowableOnSubscribe = emitter -> {
+      int number = request.blockingGet().getNumber();
+      int divisor = 2;
+
+      while (number > 1) {
+        if (emitter.isCancelled()) {
+          System.err.println("Is Cancelled Invoked!!!");
+          break;
         }
-
-        if (!emitter.isCancelled()) {
-          emitter.onComplete();
+        if (number % divisor == 0) {
+          number = number / divisor;
+          System.out.println(divisor);
+          emitter.onNext(PrimeNumberDecompositionResponse.newBuilder()
+              .setPrimeFactor(divisor)
+              .build());
+        } else {
+          divisor += 1;
         }
       }
+      emitter.onComplete();
     };
+
     return Flowable.create(flowableOnSubscribe, BackpressureStrategy.BUFFER);
   }
 }
