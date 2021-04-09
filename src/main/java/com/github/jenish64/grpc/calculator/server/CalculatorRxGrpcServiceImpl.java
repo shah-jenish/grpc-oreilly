@@ -10,12 +10,16 @@ import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Single;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import org.reactivestreams.Publisher;
-import org.reactivestreams.Subscriber;
 
+/**
+ * 1. Try rxjava 3 -
+ * https://github.com/salesforce/reactive-grpc/pull/219 RxJava 3 PR which is currently not even supported by sales force
+ *    What are the implications???
+ *
+ * 2. Expand the emitter to have onError, OnDispose....
+ *
+ * 3. Take the FE mock feed service and use the rxjava service stubs
+ */
 public class CalculatorRxGrpcServiceImpl extends RxCalculatorServiceGrpc.CalculatorServiceImplBase {
 
   @Override

@@ -1,7 +1,5 @@
 package com.github.jenish64.grpc.calculator.client;
 
-import com.proto.calculator.CalculatorServiceGrpc;
-import com.proto.calculator.CalculatorServiceGrpc.CalculatorServiceBlockingStub;
 import com.proto.calculator.PrimeNumberDecompositionRequest;
 import com.proto.calculator.PrimeNumberDecompositionResponse;
 import com.proto.calculator.RxCalculatorServiceGrpc;
@@ -15,7 +13,6 @@ import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import java.time.Instant;
-import java.util.concurrent.TimeUnit;
 
 public class CalculatorRxGrpcClient {
 
