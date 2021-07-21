@@ -1,3 +1,5 @@
+// Comment to test private public
+
 buildscript {
     repositories {
         mavenCentral()
