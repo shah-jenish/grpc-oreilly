@@ -1,3 +1,5 @@
+// Add comment
+
 buildscript {
     repositories {
         mavenCentral()
