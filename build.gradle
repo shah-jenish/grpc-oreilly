@@ -1,4 +1,3 @@
-// CHECK: Amend comment
 
 buildscript {
     repositories {
